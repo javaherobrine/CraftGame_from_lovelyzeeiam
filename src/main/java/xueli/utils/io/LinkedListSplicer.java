@@ -9,9 +9,11 @@ import sun.misc.Unsafe;
  * what's worse, their fields and inner classes are all private! <br />
  * use reflection to crack them!
  * 
+ * @deprecated Final solution is under discussion
  * @author Java_Herobrine
  * @see java.util.LinkedList.Node
  */
+@Deprecated(forRemoval=false)
 public final class LinkedListSplicer {
 	private LinkedListSplicer() {
 	}

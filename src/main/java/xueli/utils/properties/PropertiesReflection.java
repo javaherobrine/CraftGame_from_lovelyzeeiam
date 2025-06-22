@@ -15,6 +15,19 @@ public class PropertiesReflection {
 	private static final Logger LOGGER = new Logger();
 
 	private static HashMap<Class<?>, Parsable<?>> parsers = new HashMap<>();
+	
+	static {
+		parsers.put(boolean.class, Boolean::parseBoolean);
+		parsers.put(byte.class, Byte::parseByte);
+		parsers.put(short.class, Short::parseShort);
+		parsers.put(int.class, Integer::parseInt);
+		parsers.put(long.class, Long::parseLong);
+		parsers.put(float.class, Float::parseFloat);
+		parsers.put(double.class, Double::parseDouble);
+		parsers.put(char.class, (s)->{return s.charAt(0);});
+		parsers.put(String.class, (s)->{return s;});
+		
+	}
 
 	public static <T> void registerParser(Parsable<T> parsable, Class<T> clazz) {
 		parsers.put(clazz, parsable);
@@ -30,7 +43,8 @@ public class PropertiesReflection {
 		boolean instance = !(obj instanceof Class<?>);
 		Class<?> objClazz = instance ? obj.getClass() : (Class<?>) obj;
 		HashMap<String, ArrayList<Field>> annotations = new HashMap<>();
-		for (Field f : objClazz.getDeclaredFields()) {
+		Field[] fields0 = objClazz.getDeclaredFields();//It's slow
+		for (Field f : fields0) {
 			Property property = f.getAnnotation(Property.class);
 			if (property == null)
 				continue;
@@ -56,23 +70,7 @@ public class PropertiesReflection {
 
 			for (Field field : fields) {
 				Class<?> fieldClazz = field.getType();
-				if (String.class.equals(fieldClazz)) {
-					field.set(modifyTarget, value);
-				} else if (int.class.equals(fieldClazz)) {
-					field.setInt(modifyTarget, Integer.parseInt(value));
-				} else if (long.class.equals(fieldClazz)) {
-					field.setLong(modifyTarget, Long.parseLong(value));
-				} else if (float.class.equals(fieldClazz)) {
-					field.setFloat(modifyTarget, Float.parseFloat(value));
-				} else if (double.class.equals(fieldClazz)) {
-					field.setDouble(modifyTarget, Double.parseDouble(value));
-				} else if (boolean.class.equals(fieldClazz)) {
-					field.setBoolean(modifyTarget, Boolean.parseBoolean(value));
-				} else if (short.class.equals(fieldClazz)) {
-					field.setShort(modifyTarget, Short.parseShort(value));
-				} else if (byte.class.equals(fieldClazz)) {
-					field.setByte(modifyTarget, Byte.parseByte(value));
-				} else if (parsers.containsKey(fieldClazz)) {
+				if (parsers.containsKey(fieldClazz)) {
 					Parsable<?> parser = parsers.get(fieldClazz);
 					field.set(modifyTarget, parser.parse(value));
 				} else {
