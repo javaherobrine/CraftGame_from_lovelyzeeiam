@@ -259,6 +259,8 @@ public interface PrimitiveCodec<T> {
 
 	// Write "e37d953a-33b2-4554-ab88-b58fb440ab16"
 	// But read "ffffffff-ffff-ab16-ffff-ffffffb24554" ???
+	// It fixed.
+	// Oh, all of java's integers are signed!!!
 	PrimitiveCodec<UUID> UUID = new PrimitiveCodec<>() {
 		@Override
 		public java.util.UUID read(Readable r) throws IOException {

@@ -3,6 +3,7 @@ package xueli.utils.properties;
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InaccessibleObjectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,8 +55,13 @@ public class PropertiesReflection {
 				annotations.put(pName, new ArrayList<>());
 			annotations.get(pName).add(f);
 
-			f.setAccessible(true);
-
+			try {
+				f.setAccessible(true);
+			}catch(InaccessibleObjectException ee) {
+				LOGGER.error("LovelyZeeiam may hate modules and private fields. ^v^");
+				continue;
+			}
+			
 		}
 
 		Object modifyTarget = instance ? obj : null;
