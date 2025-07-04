@@ -252,7 +252,7 @@ public interface PrimitiveCodec<T> {
 		@Override
 		public void write(String s, Writable w) throws IOException {
 			byte[] bytes = s.getBytes(CodecConstants.STRING_CHARSET);
-			VAR_INT.write(s.length(), w);
+			VAR_INT.write(bytes.length, w);
 			w.writeBytes(bytes);
 		}
 	};
