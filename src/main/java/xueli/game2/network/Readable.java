@@ -3,37 +3,20 @@ package xueli.game2.network;
 import java.io.IOException;
 import java.io.InputStream;
 
+import xueli.utils.Bytes;
+
 public interface Readable {
 
-	public static short toUnsigned(byte b) {
-		if(b<0){
-			return ((short)(256+b));
-		}
-		return b;
-	}
-	
 	default public int readInteger() throws IOException {
-		int v = 0;
-		for (int i = 0; i < Integer.BYTES; i++) {
-			v |= (((int) toUnsigned(readByte())) << (Byte.SIZE * i));
-		}
-		return v;
+		return Bytes.getInt(readBytes(4));
 	}
 
 	default public short readShort() throws IOException {
-		short v = 0;
-		for (int i = 0; i < Short.BYTES; i++) {
-			v |= (toUnsigned(readByte()) << (Byte.SIZE * i));
-		}
-		return v;
+		return Bytes.getShort(readBytes(2));
 	}
 
 	default public long readLong() throws IOException {
-		long v = 0;
-		for (int i = 0; i < Long.BYTES; i++) {
-			v |= (((long) toUnsigned(readByte())) << (Byte.SIZE * i));
-		}
-		return v;
+		return Bytes.getLong(readBytes(8));
 	}
 	default public float readFloat() throws IOException {
 		return Float.intBitsToFloat(readInteger());

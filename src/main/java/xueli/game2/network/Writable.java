@@ -3,27 +3,20 @@ package xueli.game2.network;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import xueli.utils.Bytes;
+
 public interface Writable {
 
 	default public void writeInteger(int i) throws IOException {
-		for (int j = 0; j < Integer.BYTES; j++) {
-			writeByte((byte) (i & 0xFF));
-			i >>>= Byte.SIZE;
-		}
+		writeBytes(Bytes.getBytes(i));
 	}
 
 	default public void writeShort(short i) throws IOException {
-		for (int j = 0; j < Short.BYTES; j++) {
-			writeByte((byte) (i & 0xFF));
-			i >>>= Byte.SIZE;
-		}
+		writeBytes(Bytes.getBytes(i));
 	}
 
 	default public void writeLong(long i) throws IOException {
-		for (int j = 0; j < Long.BYTES; j++) {
-			writeByte((byte) (i & 0xFF));
-			i >>>= Byte.SIZE;
-		}
+		writeBytes(Bytes.getBytes(i));
 	}
 
 	default public void writeFloat(float f) throws IOException {
