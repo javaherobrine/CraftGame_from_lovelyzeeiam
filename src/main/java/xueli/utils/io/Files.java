@@ -113,10 +113,22 @@ public class Files {
 		image.getRGB(0, 0, image.getWidth(), image.getHeight(), data, 0, image.getWidth());
 		return data;
 	}
-
+	/**
+	 * Incorrect implementation
+	 * A file packed in a jar or zip file cannot be presented as a File object at all.
+	 * If the code is packed, this function works incorrectly.
+	 * Use an alternative to solve it.
+	 * This function is tested by Java_Herobrine, but he is unable to fix it.
+	 * @author Java_Herobrine
+	 */
+	@Deprecated
 	public static File getResourcePackedInJar(String path) {
-		return new File(URLDecoder.decode(Thread.currentThread().getContextClassLoader().getResource(path).getPath(),
+		File f = new File(URLDecoder.decode(Thread.currentThread().getContextClassLoader().getResource(path).getPath(),
 				StandardCharsets.UTF_8));
+		System.err.print("Method getResourcePackedInJar is invoked with parameter: "+path);
+		System.err.println(f);
+		System.err.println(f.exists());
+		return f;
 	}
 
 	public static InputStream getResourcePackedInJarStream(String path) {
