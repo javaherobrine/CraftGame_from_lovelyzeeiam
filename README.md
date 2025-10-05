@@ -1,5 +1,7 @@
 ![Splash](./splash/splash.png)
 
+This is a fork of LovelyZeeiam/CraftGame, however, (s)he'd deleted it before I detached this fork with its maintenance changed temporarily :-(. And this fork is detached now, but can be attached to LovelyZeeiam's upstream again if (s)he wants(and I'll undo the maintenance change).
+
 # Minecraft-Classic-Remake
 
 The goal is to make a "Minecraft PE 0.10.5 Remake" programmed in Java 17 with LWJGL 3. Currently, the game is being refactored and cannot be played. But when the game is done, there will be a skeleton summary of this project.
