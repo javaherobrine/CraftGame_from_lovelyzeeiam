@@ -3,6 +3,7 @@ package xueli.game2.renderer.ui;
 import org.lwjgl.nanovg.NVGColor;
 import org.lwjgl.nanovg.NVGPaint;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.MemoryUtil;
 import org.lwjgl.utils.vector.Matrix3f;
 import org.lwjgl.utils.vector.Vector2f;
 import xueli.game2.resource.Resource;
@@ -16,6 +17,8 @@ import xueli.utils.logger.InvokeDaemon;
 import java.awt.*;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+
+import io.github.javaherobrine.GameUtils;
 
 import static org.lwjgl.nanovg.NanoVG.*;
 import static org.lwjgl.nanovg.NanoVGGL3.*;
@@ -82,8 +85,11 @@ public class NanoGui implements ResourceHolder, GraphicDriver {
 		buffer.put(bytes);
 		buffer.flip();
 
-		int id = nvgCreateFontMem(nvg, name, buffer, 0);
-
+		//int id = nvgCreateFontMem(nvg, name, buffer, 0);
+		byte[] name0=new StringBuilder(name).append('\0').toString().getBytes();
+		long addr0=GameUtils.address(name0);
+		int id=nnvgCreateFontMem(nvg, addr0, MemoryUtil.memAddress0(buffer),bytes.length, 0);
+		GameUtils.allowGC(addr0,name0);
 		if (id < 0) {
 			throw new IOException("Can't register font: " + name);
 		}
