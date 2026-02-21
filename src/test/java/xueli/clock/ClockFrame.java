@@ -250,11 +250,11 @@ public class ClockFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					UIManager.setLookAndFeel(new FlatDarkLaf());
-				} catch (UnsupportedLookAndFeelException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					//UIManager.setLookAndFeel(new FlatDarkLaf());
+//				} catch (UnsupportedLookAndFeelException e) {
+//					e.printStackTrace();
+//				}
 
 				try {
 					ClockFrame window = new ClockFrame();
