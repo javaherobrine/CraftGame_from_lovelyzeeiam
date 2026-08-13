@@ -10,7 +10,7 @@ public class SparseSet {
 	private final ArrayList<int[]> sparse = new ArrayList<>();
 
 	public SparseSet() {
-		this(32);
+		this(1024);
 	}
 
 	public SparseSet(int sparsePageSize) {

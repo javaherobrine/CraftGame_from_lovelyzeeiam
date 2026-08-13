@@ -19,7 +19,6 @@ public class VKWindow implements LifeCycle{
 	public void init() {
 		//Window
 		glfwInit();
-		init();
 		GLFWErrorCallback.createPrint(System.err).set();
 		long monitor=glfwGetPrimaryMonitor();
 		var video=glfwGetVideoMode(monitor);
@@ -51,6 +50,11 @@ public class VKWindow implements LifeCycle{
 		MemoryUtil.memPutAddress(struct+VkInstanceCreateInfo.PPENABLEDEXTENSIONNAMES,addr1);
 		VkInstanceCreateInfo.nenabledExtensionCount(struct, MemoryUtil.memGetInt(addr0));
 		info.ppEnabledLayerNames(null);
+		//Validation Layer
+		addr=stack.nmalloc(MemoryStack.POINTER_SIZE);
+		nvkEnumerateInstanceLayerProperties(addr,0);
+		int count=MemoryUtil.memGetInt(addr);
+		System.err.println(count);
 		//instance
 		addr=stack.nmalloc(MemoryStack.POINTER_SIZE);
 		int result=nvkCreateInstance(struct,0,addr);
